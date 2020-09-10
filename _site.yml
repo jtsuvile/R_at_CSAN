@@ -18,9 +18,6 @@ navbar:
     - text: "Exercises 4"
 #      icon: fa-newspaper-o
       href: exercise_sheet_4.html
-    - text: "Final assignment"
-#      icon: fa-newspaper-o
-      href: exercise_sheet_5.html
     - text: "Solutions"
       icon: fa-lightbulb-o
       menu:
