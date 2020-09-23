@@ -283,15 +283,6 @@ $(document).ready(function () {
 <li>
   <a href="exercise_sheet_1.html">Exercises 1</a>
 </li>
-<li>
-  <a href="exercise_sheet_2.html">Exercises 2</a>
-</li>
-<li>
-  <a href="exercise_sheet_3.html">Exercises 3</a>
-</li>
-<li>
-  <a href="exercise_sheet_4.html">Exercises 4</a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-lightbulb-o"></span>
@@ -303,15 +294,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="solutions_exercise_1.html">Solutions 1</a>
-    </li>
-    <li>
-      <a href="solutions_exercise_2.html">Solutions 2</a>
-    </li>
-    <li>
-      <a href="solutions_exercise_3.html">Solutions 3</a>
-    </li>
-    <li>
-      <a href="solutions_exercise_4.html">Solutions 4</a>
     </li>
   </ul>
 </li>
@@ -374,8 +356,7 @@ thisisalist[[1]][1,1]
 ## 2.2 Working with data
 
 # Q2.2.2
-data &lt;- read.csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/exercise_data.csv&#39;, 
-                 sep=&quot;;&quot;, dec=&#39;,&#39;)
+data &lt;- read.csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/exercise_data.csv&#39;)
 
 # Q2.2.3
 head(data)
@@ -397,7 +378,7 @@ describe(data)
 data[7,]
 
 # Q2.2.8 
-data$co_Gender
+data$sex
 
 # Q2.2.9
 # row 7 has a lot of missing values (NA)
@@ -406,18 +387,18 @@ sum(is.na(data[7,]))
 # since truth values are also 0 (FALSE) and 1 (TRUE). If we wanted to check how many values are not NA, we could do
 sum(!is.na(data[7,]))
 
-# gender is shown as numeric, although we know that logically it is a categorical variable
+# sex is shown as numeric, although we know that logically it is a categorical variable
 
 # Q2.2.10
-data$co_Gender &lt;- factor(data$co_Gender, levels=c(1,2), labels=c(&#39;female&#39;,&#39;male&#39;))
-data$co_EDUC_fam_clas &lt;- factor(data$co_EDUC_fam_clas, levels=c(1,2,3), labels=c(&#39;low&#39;,&#39;middle&#39;,&#39;high&#39;))
+data$sex &lt;- factor(data$sex, levels=c(1,2), labels=c(&#39;female&#39;,&#39;male&#39;))
+data$education &lt;- factor(data$education, levels=c(1,2,3,4), labels=c(&#39;primary&#39;,&#39;secondary&#39;,&#39;vocational&#39;, &#39;university&#39;))
 
 # Q2.2.11
 summary(data)
 # the columns that were made into factors are now showing counts of each factor level instead of mean etc
 
 # Q2.2.12
-data[,c(&#39;Age_calculated&#39;,&#39;co_Gender&#39;, &#39;co_EDUC_fam_clas&#39;, &#39;Healthy_pattern&#39;)]
+data[,c(&#39;age&#39;,&#39;sex&#39;, &#39;education&#39;, &#39;curr_pain_extent&#39;)]
 
 # Q2.2.13
 # The plots look different, because one has continuous variable as the x axis and the other one has a categorical variable. Therefore,
@@ -425,62 +406,65 @@ data[,c(&#39;Age_calculated&#39;,&#39;co_Gender&#39;, &#39;co_EDUC_fam_clas&#39;
 
 # Q2.2.14-Q.2.2.18
 pdf(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/sample_plot_1.pdf&#39;)
-hist(data$Freshveg, breaks=0:35, xlab=&quot;Fresh vegetable consumption frequency (times per week)&quot;, ylab=&quot;Number of participants&quot;, main=&quot;Fresh vegetable use&quot;,
+hist(data$age, breaks=50, xlab=&quot;Age of participants&quot;, ylab=&quot;Number of participants&quot;, main=&quot;Age distribution of participants&quot;,
      col=&#39;grey&#39;)
 dev.off()
 
 # Q2.2.20
 # the code plots two data series together on the same axis
 # Add=T tells the figure to keep the old plot 
-# Freq toggles between frequency (how many observations) and probability density. particularly relevant to use if your samples are very different in size 
-# (in this case they&#39;re fairly equal, so it is not necessary as such)
+# Freq toggles between frequency (how many observations) and probability density. 
+# This is particularly relevant to use if your samples are very different in size, like in this case where there are many, many more female participants than male participants
 
-with(data, plot(Age_calculated, an_BMI, 
-                pch = 19, col=c(&#39;cyan&#39;,&#39;blue&#39;,&#39;darkblue&#39;)[as.integer(co_EDUC_fam_clas)],
+# Q2.2.21
+with(data, plot(age, weight, 
+                pch = 19, col=c(&#39;cyan&#39;,&#39;royalblue2&#39;,&#39;blue&#39;,&#39;darkblue&#39;)[as.integer(education)],
                 xlab = &#39;age&#39;,
-                ylab = &#39;BMI&#39;,
-                main=&#39;Age vs BMI&#39;))
+                ylab = &#39;weight&#39;,
+                main=&#39;Age vs weight&#39;))
 
 ## 2.3 Conditional statements
 
 # Q2.3.2
-avg_choc = mean(data$Chocolate, na.rm=T)
 for(row in 1:20){ # if you wanted to go over the whole data set, you would set the end to be nrow(data)
-  if (is.na(data$Chocolate[row])){
-    cat(paste0(&quot;We do not know if subject &quot;, data$ID_number[row], &quot; eats chocolate.\n&quot;))
-  } else if (data$Chocolate[row]==0){
-    cat(paste0(&quot;Subject &quot;, data$ID_number[row], &quot; does not eat chocolate.\n&quot;))
-  } else if (data$Chocolate[row]&lt; avg_choc){
-    cat(paste0(&quot;Subject &quot;, data$ID_number[row], &quot; eats less than average amount of chocolate per week.\n&quot;))
+  if (is.na(data$work_physical[row])){
+    cat(paste0(&quot;We do not know if subject &quot;, data$subid[row], &quot; does physically demanding work.\n&quot;))
+  } else if (data$work_physical[row] &lt;= data$work_sitting[row]){
+    cat(paste0(&quot;Subject &quot;, data$subid[row], &quot; does more sitting work than physically demanding work.\n&quot;))
   } else {
-    cat(paste0(&quot;Subject &quot;, data$ID_number[row], &quot; eats more than average amount of chocolate per week.\n&quot;))
+    cat(paste0(&quot;Subject &quot;, data$subid[row], &quot; does more physically demanding work than sitting work.\n&quot;))
   }
+}
+
+# Q2.3.3
+for(row in 1:nrow(data)){
+  cat(paste0(&quot;This is subject number &quot;, data$subid[row], &#39;.\n&#39;))
 }
 
 # Q2.3.4
 
 for(row in 1:nrow(data)){
-  if (is.na(data$co_Gender[row])){
+  if (is.na(data$sex[row])){
     pronoun = &#39;They are &#39;
-  } else if (data$co_Gender[row]==&#39;female&#39;){
+  } else if (data$sex[row]==&#39;female&#39;){
+    pronoun = &#39;She&#39;
+  } else {
+    pronoun = &#39;He&#39;
+  }
+  cat(paste0(&quot;This is subject number &quot;, data$subid[row], &#39;. &#39;, pronoun, &#39; is &#39;, data$age[row], &#39; years old.\n&#39;))
+}
+
+# The loop above only operates with two sexes (male, female). This is due to the fact that the data set we&#39;re working on only has male and female participants on it. If you have a data set with either missing gender values (NA) or provide the option &quot;rather not say&quot;, &quot;other&quot; or similar, you might want to use something like the loop below which also uses the &#39;they&#39; pronoun
+
+for(row in 1:nrow(data)){
+  if (is.na(data$sex[row])){
+    pronoun = &#39;They are &#39;
+  } else if (data$sex[row]==&#39;female&#39;){
     pronoun = &#39;She is &#39;
   } else {
     pronoun = &#39;He is &#39;
   }
-  cat(paste0(&quot;This is subject number &quot;, data$ID_number[row], &#39;. &#39;, pronoun, data$Age_calculated[row], &#39; years old.\n&#39;))
-}
-
-
-row = 6
-for(row in 1:nrow(data)){
-  if(is.na(data$co_Gender[row])){
-    print(&#39;Ei mit????n hajuu&#39;)
-    a &lt;- 1+1
-  }else if(data$co_Gender[row]==1){
-    print(&#39;It\&#39;s a girl&#39;)
-  } else {
-    print(&#39;It\&#39;s a boy&#39;)
-  }
+  cat(paste0(&quot;This is subject number &quot;, data$subid[row], &#39;. &#39;, pronoun, data$age[row], &#39; years old.\n&#39;))
 }</code></pre>
 
 &nbsp;
