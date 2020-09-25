@@ -11,24 +11,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 After completing these tasks, you'll be able to convert raw data into tidy format. You will also be able to make publication quality plots using ggplot2. New concepts: tidy data, grammar of graphics, aesthetics. New packages: tidyverse (specifically tidyr, dplyr, ggplot2), patchwork
 
-## Resources
-* [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8WHa_aERVDo6s-TVARaa-jJ)
-* [You can find the slides shown in the video here](./images/slides_for_demo_3.pdf)
-* [You can see the code from the videos here](./code_demo_3.html)
-* [You can see the solutions for the exercises below here](./solutions_exercise_3.html) (but do try to solve the tasks with help from the demo code and google before looking at solutions)
-* [A great YouTube tutorial about data tidying](https://www.youtube.com/playlist?list=PL9HYL-VRX0oQOWAFoKHFQAsWAI3ImbNPk)
-* [A potentially interesting thread about data visualisation](https://threadreaderapp.com/thread/1230520003155447809.html)
-
 # Exercises
 ## 3.1 Tidy data
-Please note that it's not always easy to decide how to get your data from its current state to tidy! If you feel a little overwhelmed with your own data set and how to get it to where it needs to be, you can book a one-on-one meeting with me for Tuesday 12th May (see Moodle for how). We can go over your specific project and I can give you tips on how to proceed! In the mean time, you can complete these tasks with the example data set.
+Please note that it's not always easy to decide how to get your data from its current state to tidy! If you feel a little overwhelmed with your own data set and how to get it to where it needs to be, you can send a bat signal to Juulia on Teams and we can have a quick look at your data together. In the mean time, you can complete these tasks with the example data set.
 
 ### Loading and inspecting data
 If your own data set is already clean, you can also practice these steps with the exercise_data_messy.csv which is available on Moodle. On the other hand, if you have raw data which needs cleaning, you can also do this on your own data set. The solutions are shown on the exercise data. You'll need to have the package tidyverse installed and loaded to work these exercises. See a handy cheat sheet for many of the commands we're using today [here](./images/data-import.pdf) 
 
-Q3.1.1 Load in your data using `read_csv`.
+Q3.1.1 Read in your data using `read_csv`. Make sure you have the correct number of columns and rows after the import. 
 
-Tip: If your csv uses semicolon (;) instead of comma as a separator, you should use read_csv2 instead. 
+Tip: If you're having trouble with data import, you can also use the graphical "import dataset" (under the environment tab, in the top right window). 
+
+Note: Import dataset should not be your default way of loading in data, but it can make life easier the first time you're importing something (especially when you're still a beginner at R). Import dataset will ouput the import command (with the correct parameters) to your console, so you can copy the command form there and paste it to the top of your script. This way you can run the import from the script window next time.
 
 ### Wrangling data 
 
@@ -48,7 +42,7 @@ Q3.1.6 Make sure all of your factors are factors. If not, transform them with `m
 
 Q3.1.7 See if you want to rename some columns with `rename` to make the names shorter (and therefore quicker to type). In the example data set, the first five columns could benefit from a shorter name.
 
-Q3.1.8 Create a new column by combining values from existing columns with `mutate`. If you're working on the example data set, you can e.g. sum values for different types of bread into a new column called 'Bread'.
+Q3.1.8 Create a new column by combining values from existing columns with `mutate`. If you're working on the example data set, you can e.g. count the Body Mass Index (weight(kg) / height(m)^2) for the participants.
 
 Q3.1.9 Use `group_by` to group your data according to some factor(s) and then use `tally()` (doesn't need any arguments if you use %>% to give it your data) to count occurrences in those groups.
 
@@ -85,7 +79,7 @@ To superimpose a normal distribution curve, we can add `stat_function(fun = dnor
 
 Q3.2.10 Now save the plot.
 
-Tip: You cann either put your `pdf()` and `dev.off()` calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with `p1 <- ggplot` etc.) 
+Tip: You cann either put your `pdf()` and `dev.off()` calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with `p1 <- ggplot` etc.). You can also save plot via the graphical "Export" (plots tab, lower right hand side), but I recommend you try to minimise the number of point-and-click operations you do with R. 
 
 ###  Now make a figure with your own data, if you have some!
 
@@ -112,3 +106,11 @@ Q3.2.18 Which one do you prefer? How would you add a third plot?
 Think of a plot type you would like to do with your own data. Can you figure out how to do that in ggplot2? If you have made a plot from your own data with ggplot2, please share it on the course forum to show off and to motivate others!
 
 Tip: Google (especially the image search) is your best friend in this! You can google ggplot2 <whateverplot> (e.g. ggplot2 violin plot) to find examples of how to do that type of plot in ggplot2.
+
+## Resources
+* [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8WHa_aERVDo6s-TVARaa-jJ)
+* [You can find the slides shown in the video here](./images/slides_for_demo_3.pdf)
+* [You can see the code from the videos here](./code_demo_3.html)
+* [You can see the solutions for the exercises below here](./solutions_exercise_3.html) (but do try to solve the tasks with help from the demo code and google before looking at solutions)
+* [A great YouTube tutorial about data tidying](https://www.youtube.com/playlist?list=PL9HYL-VRX0oQOWAFoKHFQAsWAI3ImbNPk)
+* [A potentially interesting thread about data visualisation](https://threadreaderapp.com/thread/1230520003155447809.html)

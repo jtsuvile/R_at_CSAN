@@ -283,6 +283,15 @@ $(document).ready(function () {
 <li>
   <a href="exercise_sheet_1.html">Exercises 1</a>
 </li>
+<li>
+  <a href="exercise_sheet_2.html">Exercises 2</a>
+</li>
+<li>
+  <a href="exercise_sheet_3.html">Exercises 3</a>
+</li>
+<li>
+  <a href="exercise_sheet_4.html">Exercises 4</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-lightbulb-o"></span>
@@ -294,6 +303,15 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="solutions_exercise_1.html">Solutions 1</a>
+    </li>
+    <li>
+      <a href="solutions_exercise_2.html">Solutions 2</a>
+    </li>
+    <li>
+      <a href="solutions_exercise_3.html">Solutions 3</a>
+    </li>
+    <li>
+      <a href="solutions_exercise_4.html">Solutions 4</a>
     </li>
   </ul>
 </li>
@@ -360,8 +378,9 @@ data &lt;- data %&gt;% mutate(co_Gender = factor(co_Gender, levels = c(1,2),labe
 data &lt;- data %&gt;% rename(subid = ID_number, sex = co_Gender, education = co_EDUC_fam_clas, age = Age_calculated, BMI = an_BMI)
 
 # Q3.1.8
-# Let&#39;s sum values for different types of bread into a new column called &#39;Bread&#39;.
-data &lt;- data %&gt;% mutate(bread = Whitebread+Wholemealbread+Ryebread)
+# Let&#39;s make a column for BMI. ## TODO: check with the new data set
+data &lt;- data %&gt;% mutate(BMI = (weight / (0.01*height)^2 )) 
+# Note: we&#39;re using 0.01*height because the formula requires height in meters and our data has it in centimeters
 
 # Q3.1.9 
 counted_data &lt;- data %&gt;% group_by(sex, education) %&gt;% tally()

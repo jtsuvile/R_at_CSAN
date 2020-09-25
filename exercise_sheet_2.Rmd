@@ -11,13 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 After completing these tasks, you'll be able to read in csv-formatted data, use different functions to look at the data, create simple plots of the data, and to save the plots you created. New concepts: data structures, factors, NA, writing to file, plot elements
 
-## Resources
-* [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8UbNBXn2LAD2WvpG1hotOCP)
-* [You can find the slides shown in the video here](./images/slides_for_demo_2.pdf)
-* [You can see the code from the videos here](./code_demo_2.html)
-* [You can see the solutions for the exercises below here](./solutions_exercise_2.html) (but do try to solve the tasks with help from the demo code and google before looking at solutions)
-
 # Exercises
+
+[Demo 2: Data structures (lecture)](https://youtu.be/wITUZhzovY8){target="_blank"}
+
+[Demo 2: Data structures (demo)](https://youtu.be/kz8yWs_Qt28){target="_blank"}
+
 ## 2.1. More data structures
 Q2.1.1 Create three vectors called x,y,z, each of them numeric and 4 elements long. Try to use a different function for creating each.
 
@@ -38,8 +37,14 @@ Q2.1.6 Create a list whose elements are your matrices from Q2.1.2 and Q2.1.4.
 Q2.1.7 Through the list, access the first element of the first matrix.
 
 ## 2.2 Working with data
+[Demo 2: Factors and NA (lecture)](https://youtu.be/-NUHUhphDSU){target="_blank"}
+
+[Demo 2: Data (lecture)](https://youtu.be/gcHpLiGevFo){target="_blank"}
+
+[Demo 2: Loading and inspecting data (demo)](https://youtu.be/ssVgi2UkIqM){target="_blank"}
+
 ### Loading data
-Q2.2.1 Download the exercise data to your local computer.
+Q2.2.1 Download the exercise data to your local computer (from Teams).
 
 Q2.2.2 Load the csv file with the command `data <- read.csv([yourfilelocation], sep=';')`.
 
@@ -65,34 +70,41 @@ Q2.2.11 Run summary again, see what has changed in summary for the columns you m
 
 Q2.2.12 Use square bracket notation and a vector of column names to access age, sex, weight, and height for all rows.
 
-### Plotting
+Q2.2.13 A generic format to select all rows which match particular criteria is `data[data$columnname1 == value,]` (but you can use any logical operator instead of ==). Can you index the data set to only show male subjects? To only show male subjects who are aged 30 and up? 
 
-Q2.2.13 Run `plot(data[,c('age','curr_pain_extent')])`, look at the resulting plot, and then run `plot(data[,c('education','pain')])`. You used the same command (plot), why do the plots look different? 
+Tip: You can use logical connectors to combine multiple logical operations (see slides for week 1)
+
+### Plotting
+[Demo 2: simple plots (demo)](https://youtu.be/dIr-aBS7uPU){target="_blank"}
+
+Q2.2.14 Run `plot(data[,c('age','curr_pain_extent')])`, look at the resulting plot, and then run `plot(data[,c('education','pain')])`. You used the same command (plot), why do the plots look different? 
 
 Tip: You can use the arrows at the top of plot viewer to view earlier plots you've made. We will go over combining multiple plots in the same figure next week.
 
-Q2.2.14 Let's build a histogram of the age distribution in this sample! Start by running `hist(data$age)`
+Q2.2.15 Let's build a histogram of the age distribution in this sample! Start by running `hist(data$age)`
 
-Q2.2.15 Looks like we need more bars to get a better look, add parameter `breaks=50`. You can play around with the number to find one which feels good to you.
+Q2.2.16 Looks like we need more bars to get a better look, add parameter `breaks=50`. You can play around with the number to find one which feels good to you.
 
-Q2.2.16 Try adding x and y axis labels with `xlab="Participant age"` and `ylab="Number of participants"`
+Q2.2.17 Try adding x and y axis labels with `xlab="Participant age"` and `ylab="Number of participants"`
 
-Q2.2.17 Add title to your plot with the parameter `main`
+Q2.2.18 Add title to your plot with the parameter `main`
 
-Q2.2.18 Add a colour to the bars with `col`. 
+Q2.2.19 Add a colour to the bars with `col`. 
+
 Tip: You can get a list of acceptable colour name strings with `colours()` (Note: Checking the colours is something it would be fine to just type into the console and not include in the script - you're just looking up what options you have and once you've decided, you do not need to run the check again). You can also define your own rgb colour with rgb()
 
-Q2.2.19 Once you're happy with your plot, save it as a pdf-file. 
+Q2.2.20 Once you're happy with your plot, save it as a pdf-file. 
 
 Tip: Remember to put your pdf() command before you build the plot and run dev.off() after you're done until the console says null device. If this is very difficult, you can also click Export > Save as PDF (but saving from the script is preferred for replicability)
 
-Q2.2.20 Run the following code
+Q2.2.21 Run the following code
 ```{r eval=FALSE}
 with(data, hist(age[sex=='female'], 
                 col=rgb(1,0,0,0.5),  
                 breaks=40, 
                 freq=F, 
                 xlim=c(10,100),
+                ylim=c(0,0.1),
                 xlab="Age of participants", 
                 ylab="Number of participants", 
                 main="Age distribution of participants"))
@@ -108,11 +120,12 @@ Do you understand what this code does? What does the parameter freq control? Wha
 
 Tip: You can try to comment out lines or change the input values to see what changes
 
-Q2.2.21 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.
+Q2.2.22 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.
 
 Tip: If you want to color by categorical variable, in scatter plots it is easier than with histograms. You just need to add `col=as.integer(data$education)` (or any other factor vector) as an argument. 
 
 ## 2.3 If-else structure
+[Demo 2: If-else](https://youtu.be/2sS72Eei7uk){target="_blank"}
 
 Q2.3.1 Run the following loop
 ```{r eval=FALSE}
@@ -134,6 +147,10 @@ Tip: As above, control for NA first, otherwise you will get an error when the lo
 
 Q2.3.3 Create a new loop which goes over each row of your data frame. For each row, the loop will print "This is subject number " + the subject's ID number
 
-Q2.3.4 Continue building the loop by adding another sentence to the output. If the subject is male, the loop should print "He is X years old." and if the subject is female, it should print "She is X years old." If the subject's gender is not known (is.na), it should print out "They are X years old."
+Q2.3.4 Continue building the loop by adding another sentence to the output. If the subject is male, the loop should print "He is X years old." and if the subject is female, it should print "She is X years old."
 
-
+## Resources
+* [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8UbNBXn2LAD2WvpG1hotOCP){target="_blank"}
+* [You can find the slides shown in the video here](./images/slides_for_demo_2.pdf){target="_blank"}
+* [You can see the code from the videos here](./code_demo_2.html){target="_blank"}
+* [You can see the solutions for the exercises below here](./solutions_exercise_2.html){target="_blank"} (but do try to solve the tasks with help from the demo code and google before looking at solutions)

@@ -53,8 +53,9 @@ data <- data %>% mutate(co_Gender = factor(co_Gender, levels = c(1,2),labels=c('
 data <- data %>% rename(subid = ID_number, sex = co_Gender, education = co_EDUC_fam_clas, age = Age_calculated, BMI = an_BMI)
 
 # Q3.1.8
-# Let's sum values for different types of bread into a new column called 'Bread'.
-data <- data %>% mutate(bread = Whitebread+Wholemealbread+Ryebread)
+# Let's make a column for BMI. ## TODO: check with the new data set
+data <- data %>% mutate(BMI = (weight / (0.01*height)^2 )) 
+# Note: we're using 0.01*height because the formula requires height in meters and our data has it in centimeters
 
 # Q3.1.9 
 counted_data <- data %>% group_by(sex, education) %>% tally()
