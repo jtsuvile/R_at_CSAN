@@ -382,25 +382,29 @@ $(document).ready(function () {
 <p>Q2.2.10 Convert categorical variables to factors with with factor(). For sex, 1 = female, 2 = male. For education level, 1 = primary school, 2 = secondary school, 3 = vocational higher education, 4 = university. Note: factor labels should not have spaces in them, so you will have to come up with suitable one word labels</p>
 <p>Q2.2.11 Run summary again, see what has changed in summary for the columns you made into factors.</p>
 <p>Q2.2.12 Use square bracket notation and a vector of column names to access age, sex, weight, and height for all rows.</p>
+<p>Q2.2.13 A generic format to select all rows which match particular criteria is <code>data[data$columnname1 == value,]</code> (but you can use any logical operator instead of ==). Can you index the data set to only show male subjects? To only show male subjects who are aged 30 and up?</p>
+<p>Tip: You can use logical connectors to combine multiple logical operations (see slides for week 1)</p>
 </div>
 <div id="plotting" class="section level3">
 <h3>Plotting</h3>
 <p><a href="https://youtu.be/dIr-aBS7uPU" target="_blank">Demo 2: simple plots (demo)</a></p>
-<p>Q2.2.13 Run <code>plot(data[,c('age','curr_pain_extent')])</code>, look at the resulting plot, and then run <code>plot(data[,c('education','pain')])</code>. You used the same command (plot), why do the plots look different?</p>
+<p>Q2.2.14 Run <code>plot(data[,c('age','curr_pain_extent')])</code>, look at the resulting plot, and then run <code>plot(data[,c('education','pain')])</code>. You used the same command (plot), why do the plots look different?</p>
 <p>Tip: You can use the arrows at the top of plot viewer to view earlier plots you've made. We will go over combining multiple plots in the same figure next week.</p>
-<p>Q2.2.14 Let's build a histogram of the age distribution in this sample! Start by running <code>hist(data$age)</code></p>
-<p>Q2.2.15 Looks like we need more bars to get a better look, add parameter <code>breaks=50</code>. You can play around with the number to find one which feels good to you.</p>
-<p>Q2.2.16 Try adding x and y axis labels with <code>xlab=&quot;Participant age&quot;</code> and <code>ylab=&quot;Number of participants&quot;</code></p>
-<p>Q2.2.17 Add title to your plot with the parameter <code>main</code></p>
-<p>Q2.2.18 Add a colour to the bars with <code>col</code>. Tip: You can get a list of acceptable colour name strings with <code>colours()</code> (Note: Checking the colours is something it would be fine to just type into the console and not include in the script - you're just looking up what options you have and once you've decided, you do not need to run the check again). You can also define your own rgb colour with rgb()</p>
-<p>Q2.2.19 Once you're happy with your plot, save it as a pdf-file.</p>
+<p>Q2.2.15 Let's build a histogram of the age distribution in this sample! Start by running <code>hist(data$age)</code></p>
+<p>Q2.2.16 Looks like we need more bars to get a better look, add parameter <code>breaks=50</code>. You can play around with the number to find one which feels good to you.</p>
+<p>Q2.2.17 Try adding x and y axis labels with <code>xlab=&quot;Participant age&quot;</code> and <code>ylab=&quot;Number of participants&quot;</code></p>
+<p>Q2.2.18 Add title to your plot with the parameter <code>main</code></p>
+<p>Q2.2.19 Add a colour to the bars with <code>col</code>.</p>
+<p>Tip: You can get a list of acceptable colour name strings with <code>colours()</code> (Note: Checking the colours is something it would be fine to just type into the console and not include in the script - you're just looking up what options you have and once you've decided, you do not need to run the check again). You can also define your own rgb colour with rgb()</p>
+<p>Q2.2.20 Once you're happy with your plot, save it as a pdf-file.</p>
 <p>Tip: Remember to put your pdf() command before you build the plot and run dev.off() after you're done until the console says null device. If this is very difficult, you can also click Export &gt; Save as PDF (but saving from the script is preferred for replicability)</p>
-<p>Q2.2.20 Run the following code</p>
+<p>Q2.2.21 Run the following code</p>
 <pre class="r"><code>with(data, hist(age[sex==&#39;female&#39;], 
                 col=rgb(1,0,0,0.5),  
                 breaks=40, 
                 freq=F, 
                 xlim=c(10,100),
+                ylim=c(0,0.1),
                 xlab=&quot;Age of participants&quot;, 
                 ylab=&quot;Number of participants&quot;, 
                 main=&quot;Age distribution of participants&quot;))
@@ -413,7 +417,7 @@ legend(&quot;topright&quot;, legend=c(&quot;Women&quot;, &quot;Men&quot;),
        col=c(rgb(1,0,0,0.5), rgb(0,0,1,0.5)), lwd=10)</code></pre>
 <p>Do you understand what this code does? What does the parameter freq control? What about the parameter add?</p>
 <p>Tip: You can try to comment out lines or change the input values to see what changes</p>
-<p>Q2.2.21 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.</p>
+<p>Q2.2.22 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.</p>
 <p>Tip: If you want to color by categorical variable, in scatter plots it is easier than with histograms. You just need to add <code>col=as.integer(data$education)</code> (or any other factor vector) as an argument.</p>
 </div>
 </div>
@@ -434,7 +438,7 @@ for(row in 1:20){ # if you wanted to go over the whole data set, you would set t
 <p>Q2.3.2 Edit the loop above so that it checks whether the subject does more physically demanding (work_physical) or sitting work (work_sitting). If the subject does more sitting work, the loop should output &quot;Subject [subject number] does more sitting work than physically demanding work.&quot; If the subject does more physically demanding work, the loop should output &quot;Subject [subject number] does more physically demanding work than sitting work.&quot;</p>
 <p>Tip: As above, control for NA first, otherwise you will get an error when the loop encounters its first NA.</p>
 <p>Q2.3.3 Create a new loop which goes over each row of your data frame. For each row, the loop will print &quot;This is subject number &quot; + the subject's ID number</p>
-<p>Q2.3.4 Continue building the loop by adding another sentence to the output. If the subject is male, the loop should print &quot;He is X years old.&quot; and if the subject is female, it should print &quot;She is X years old.&quot; If the subject's gender is not known (is.na), it should print out &quot;They are X years old.&quot;</p>
+<p>Q2.3.4 Continue building the loop by adding another sentence to the output. If the subject is male, the loop should print &quot;He is X years old.&quot; and if the subject is female, it should print &quot;She is X years old.&quot;</p>
 </div>
 <div id="resources" class="section level2">
 <h2>Resources</h2>

@@ -88,7 +88,7 @@ Q1.1.14 Make a folder on your computer for this course. Save the script file (.R
 
 [Demo 1: Data types (lecture)](https://youtu.be/xaOYGGiPqzQ){target="_blank"}
 
-[Demo 1: Data types (demo)](https://youtu.be/jZFlyc56-Ak){target="_blank"}
+[Demo 1: Data types (demo)](https://youtu.be/O3bOPBlKWcc){target="_blank"}
 
 ### Numbers ("numeric")
 

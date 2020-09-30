@@ -344,8 +344,9 @@ $(document).ready(function () {
 <div id="loading-and-inspecting-data" class="section level3">
 <h3>Loading and inspecting data</h3>
 <p>If your own data set is already clean, you can also practice these steps with the exercise_data_messy.csv which is available on Moodle. On the other hand, if you have raw data which needs cleaning, you can also do this on your own data set. The solutions are shown on the exercise data. You'll need to have the package tidyverse installed and loaded to work these exercises. See a handy cheat sheet for many of the commands we're using today <a href="./images/data-import.pdf">here</a></p>
-<p>Q3.1.1 Read in your data using <code>read_csv</code>. If you're having trouble with this, you can also use the graphical &quot;import dataset&quot; (under the environment tab, in the top right window). Make sure you have the correct number of columns and rows after the import!</p>
-<p>Note: Import dataset should not be your default way of loading in data, but it can make life easier the first time you're importing something (especially when you're still a beginner). Import dataset will also ouput the import command (with the correct parameters) to your console, so you can copy the command form there and paste it to the top of your script (and next time run the import from the script window).</p>
+<p>Q3.1.1 Read in your data using <code>read_csv</code>. Make sure you have the correct number of columns and rows after the import.</p>
+<p>Tip: If you're having trouble with data import, you can also use the graphical &quot;import dataset&quot; (under the environment tab, in the top right window).</p>
+<p>Note: Import dataset should not be your default way of loading in data, but it can make life easier the first time you're importing something (especially when you're still a beginner at R). Import dataset will ouput the import command (with the correct parameters) to your console, so you can copy the command form there and paste it to the top of your script. This way you can run the import from the script window next time.</p>
 </div>
 <div id="wrangling-data" class="section level3">
 <h3>Wrangling data</h3>
@@ -381,7 +382,7 @@ $(document).ready(function () {
 <p>Q3.2.8 Now we get to the fun part! You can change the look of the plot by choosing a theme. Look at the themes here <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html#examples" class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html#examples</a> and apply one of them to your plot.</p>
 <p>Q3.2.9 We can easily add other elements to the plot. For example, adding <code>geom_density(alpha=0.2)</code> as a new function will overlay probability density function for our data. To superimpose a normal distribution curve, we can add <code>stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$Freshveg, na.rm=T), sd = sd(data$Freshveg, na.rm=T)), colour='red')</code></p>
 <p>Q3.2.10 Now save the plot.</p>
-<p>Tip: You cann either put your <code>pdf()</code> and <code>dev.off()</code> calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with <code>p1 &lt;- ggplot</code> etc.)</p>
+<p>Tip: You cann either put your <code>pdf()</code> and <code>dev.off()</code> calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with <code>p1 &lt;- ggplot</code> etc.). You can also save plot via the graphical &quot;Export&quot; (plots tab, lower right hand side), but I recommend you try to minimise the number of point-and-click operations you do with R.</p>
 </div>
 <div id="now-make-a-figure-with-your-own-data-if-you-have-some" class="section level3">
 <h3>Now make a figure with your own data, if you have some!</h3>

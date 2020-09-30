@@ -419,22 +419,28 @@ summary(data)
 data[,c(&#39;age&#39;,&#39;sex&#39;, &#39;education&#39;, &#39;curr_pain_extent&#39;)]
 
 # Q2.2.13
+# select only male subjects
+data[data$sex == &quot;male&quot;,]
+# select male subjects aged 30 and up
+data[data$sex == &quot;male&quot; &amp; data$age &gt;=30,]
+
+# Q2.2.14
 # The plots look different, because one has continuous variable as the x axis and the other one has a categorical variable. Therefore,
 # R assumes you want different kinds of plots by default
 
-# Q2.2.14-Q.2.2.18
+# Q2.2.15-Q.2.2.20
 pdf(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/sample_plot_1.pdf&#39;)
 hist(data$age, breaks=50, xlab=&quot;Age of participants&quot;, ylab=&quot;Number of participants&quot;, main=&quot;Age distribution of participants&quot;,
      col=&#39;grey&#39;)
 dev.off()
 
-# Q2.2.20
+# Q2.2.21
 # the code plots two data series together on the same axis
 # Add=T tells the figure to keep the old plot 
 # Freq toggles between frequency (how many observations) and probability density. 
 # This is particularly relevant to use if your samples are very different in size, like in this case where there are many, many more female participants than male participants
 
-# Q2.2.21
+# Q2.2.22
 with(data, plot(age, weight, 
                 pch = 19, col=c(&#39;cyan&#39;,&#39;royalblue2&#39;,&#39;blue&#39;,&#39;darkblue&#39;)[as.integer(education)],
                 xlab = &#39;age&#39;,
@@ -462,9 +468,7 @@ for(row in 1:nrow(data)){
 # Q2.3.4
 
 for(row in 1:nrow(data)){
-  if (is.na(data$sex[row])){
-    pronoun = &#39;They are &#39;
-  } else if (data$sex[row]==&#39;female&#39;){
+  if (data$sex[row]==&#39;female&#39;){
     pronoun = &#39;She&#39;
   } else {
     pronoun = &#39;He&#39;
@@ -472,7 +476,7 @@ for(row in 1:nrow(data)){
   cat(paste0(&quot;This is subject number &quot;, data$subid[row], &#39;. &#39;, pronoun, &#39; is &#39;, data$age[row], &#39; years old.\n&#39;))
 }
 
-# The loop above only operates with two sexes (male, female). This is due to the fact that the data set we&#39;re working on only has male and female participants on it. If you have a data set with either missing gender values (NA) or provide the option &quot;rather not say&quot;, &quot;other&quot; or similar, you might want to use something like the loop below which also uses the &#39;they&#39; pronoun
+# The loop above only operates with two sexes (male, female). This is due to the fact that the data set we&#39;re working on only has male and female participants on it. If you have a data set with either missing gender values (NA) or provide the option &quot;rather not say&quot;, &quot;other&quot; or similar, you might want to use something like the loop below which also uses the &#39;they&#39; pronoun. For if-else statements, you should always start with handling special casesgcdf so that they get captured correctly
 
 for(row in 1:nrow(data)){
   if (is.na(data$sex[row])){
