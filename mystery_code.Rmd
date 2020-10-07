@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r pressure, eval=FALSE}
 # Can you (together with your group) figure out what
 # this code does? Can you find ways to make the code shorter?
+# Again, if you have a lot of coding experience from before, maybe you could support your less experienced teammates if they get stuck but let them figure out things for themselves as much as possible
 
 data1 <- rnorm(100)
 data2 <- rnorm(100)
