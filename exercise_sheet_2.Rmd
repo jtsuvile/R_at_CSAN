@@ -70,6 +70,8 @@ Q2.2.11 Run summary again, see what has changed in summary for the columns you m
 
 Q2.2.12 Use square bracket notation and a vector of column names to access age, sex, weight, and height for all rows.
 
+Tip: Remember that data frames are indexed as df[row, column]. If you want all rows, you can leave the space before the comma empty (but you still need to have a comma!)
+
 Q2.2.13 A generic format to select all rows which match particular criteria is `data[data$columnname1 == value,]` (but you can use any logical operator instead of ==). Can you index the data set to only show male subjects? To only show male subjects who are aged 30 and up? 
 
 Tip: You can use logical connectors to combine multiple logical operations (see slides for week 1)
@@ -118,7 +120,7 @@ legend("topright", legend=c("Women", "Men"),
 ```
 Do you understand what this code does? What does the parameter freq control? What about the parameter add?
 
-Tip: You can try to comment out lines or change the input values to see what changes
+Tip: You can try to comment out lines or change the input values to see what changes.
 
 Q2.2.22 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.
 

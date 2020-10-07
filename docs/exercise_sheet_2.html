@@ -382,6 +382,7 @@ $(document).ready(function () {
 <p>Q2.2.10 Convert categorical variables to factors with with factor(). For sex, 1 = female, 2 = male. For education level, 1 = primary school, 2 = secondary school, 3 = vocational higher education, 4 = university. Note: factor labels should not have spaces in them, so you will have to come up with suitable one word labels</p>
 <p>Q2.2.11 Run summary again, see what has changed in summary for the columns you made into factors.</p>
 <p>Q2.2.12 Use square bracket notation and a vector of column names to access age, sex, weight, and height for all rows.</p>
+<p>Tip: Remember that data frames are indexed as df[row, column]. If you want all rows, you can leave the space before the comma empty (but you still need to have a comma!)</p>
 <p>Q2.2.13 A generic format to select all rows which match particular criteria is <code>data[data$columnname1 == value,]</code> (but you can use any logical operator instead of ==). Can you index the data set to only show male subjects? To only show male subjects who are aged 30 and up?</p>
 <p>Tip: You can use logical connectors to combine multiple logical operations (see slides for week 1)</p>
 </div>
@@ -416,7 +417,7 @@ with(data, hist(age[sex==&#39;male&#39;],
 legend(&quot;topright&quot;, legend=c(&quot;Women&quot;, &quot;Men&quot;),
        col=c(rgb(1,0,0,0.5), rgb(0,0,1,0.5)), lwd=10)</code></pre>
 <p>Do you understand what this code does? What does the parameter freq control? What about the parameter add?</p>
-<p>Tip: You can try to comment out lines or change the input values to see what changes</p>
+<p>Tip: You can try to comment out lines or change the input values to see what changes.</p>
 <p>Q2.2.22 Make a scatter plot which shows weight as a function of age. You can also practice adding axis labels, a title, and changing other graphical parameters if you'd like. Save the resulting plot.</p>
 <p>Tip: If you want to color by categorical variable, in scatter plots it is easier than with histograms. You just need to add <code>col=as.integer(data$education)</code> (or any other factor vector) as an argument.</p>
 </div>

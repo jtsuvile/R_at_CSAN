@@ -409,7 +409,7 @@ sum(!is.na(data[7,]))
 
 # Q2.2.10
 data$sex &lt;- factor(data$sex, levels=c(1,2), labels=c(&#39;female&#39;,&#39;male&#39;))
-data$education &lt;- factor(data$education, levels=c(1,2,3,4), labels=c(&#39;primary&#39;,&#39;secondary&#39;,&#39;vocational&#39;, &#39;university&#39;))
+data$education &lt;- factor(data$education, levels=c(1,2,3,4), labels=c(&#39;primary&#39;, &#39;secondary&#39;, &#39;vocational&#39;, &#39;university&#39;))
 
 # Q2.2.11
 summary(data)
@@ -423,6 +423,7 @@ data[,c(&#39;age&#39;,&#39;sex&#39;, &#39;education&#39;, &#39;curr_pain_extent&
 data[data$sex == &quot;male&quot;,]
 # select male subjects aged 30 and up
 data[data$sex == &quot;male&quot; &amp; data$age &gt;=30,]
+# notice that now the comma is after the logical operators, since our logical operators are choosing rows (not columns as in Q2.2.12)
 
 # Q2.2.14
 # The plots look different, because one has continuous variable as the x axis and the other one has a categorical variable. Therefore,
@@ -450,7 +451,8 @@ with(data, plot(age, weight,
 ## 2.3 Conditional statements
 
 # Q2.3.2
-for(row in 1:20){ # if you wanted to go over the whole data set, you would set the end to be nrow(data)
+# Below, we only loop over the first 20 rows of data. If you wanted to go over the whole data set, you would say for(row in 1:nrow(data)) instead
+for(row in 1:20){ 
   if (is.na(data$work_physical[row])){
     cat(paste0(&quot;We do not know if subject &quot;, data$subid[row], &quot; does physically demanding work.\n&quot;))
   } else if (data$work_physical[row] &lt;= data$work_sitting[row]){
@@ -476,7 +478,7 @@ for(row in 1:nrow(data)){
   cat(paste0(&quot;This is subject number &quot;, data$subid[row], &#39;. &#39;, pronoun, &#39; is &#39;, data$age[row], &#39; years old.\n&#39;))
 }
 
-# The loop above only operates with two sexes (male, female). This is due to the fact that the data set we&#39;re working on only has male and female participants on it. If you have a data set with either missing gender values (NA) or provide the option &quot;rather not say&quot;, &quot;other&quot; or similar, you might want to use something like the loop below which also uses the &#39;they&#39; pronoun. For if-else statements, you should always start with handling special casesgcdf so that they get captured correctly
+# The loop above only operates with two sexes (male, female). This is due to the fact that the data set we&#39;re working on only has male and female participants on it. If you have a data set with either missing gender values (NA) or provide the option &quot;rather not say&quot;, &quot;other&quot; or similar, you might want to use something like the loop below which also uses the &#39;they&#39; pronoun. For if-else statements, you should always start with handling special cases so that they get captured correctly
 
 for(row in 1:nrow(data)){
   if (is.na(data$sex[row])){
