@@ -195,4 +195,4 @@ Q1.4.3 Try to run the following command from the psych package: `describe(vector
 * [You can find all of the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8XfNt4LSfDrogW_K9rnZ6-_)
 * [You can find the slides shown in the video here](./images/slides_for_demo_1.pdf)
 * [You can see the code from the videos here](./code_demo_1.html)
-* [You can see the solutions for the exercises below here](./solutions_exercise_1.html) (but do try to solve the tasks with help from the demo code and google before looking at solutions)
+* [You can see the solutions for the exercises here](./solutions_exercise_1.html) (but do try to solve the tasks with help from the demo code and google before looking at solutions)

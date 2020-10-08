@@ -48,6 +48,10 @@ Q2.2.1 Download the exercise data to your local computer (from Teams).
 
 Q2.2.2 Load the csv file with the command `data <- read.csv([yourfilelocation], sep=';')`.
 
+Tip: If you're having trouble with data import (e.g. you're not getting the right number of columns, which in this case should be 18), you can also use the graphical "import dataset" (under the environment tab, in the top right window). 
+
+Note: Import dataset should not be your default way of loading in data, but it can make life easier the first time you're importing something (especially when you're still a beginner at R). Import dataset will ouput the import command (with the correct parameters) to your console, so you can copy the command form there and paste it to the top of your script. This way you can run the import from the script window next time.
+
 ### First looks at your data
 Q2.2.3 Take an initial look at the data by printing out the first five rows with `head`.
 
@@ -155,4 +159,4 @@ Q2.3.4 Continue building the loop by adding another sentence to the output. If t
 * [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8UbNBXn2LAD2WvpG1hotOCP){target="_blank"}
 * [You can find the slides shown in the video here](./images/slides_for_demo_2.pdf){target="_blank"}
 * [You can see the code from the videos here](./code_demo_2.html){target="_blank"}
-* [You can see the solutions for the exercises below here](./solutions_exercise_2.html){target="_blank"} (but do try to solve the tasks with help from the demo code and google before looking at solutions)
+* [You can see the solutions for the exercises here](./solutions_exercise_2.html){target="_blank"} (but do try to solve the tasks with help from the demo code and google before looking at solutions)
