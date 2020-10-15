@@ -28,6 +28,9 @@ data <- full_join(subjects, bonds, by='subid')
 
 # gather can be used to go from a wide format of data to a long format
 data_long <- data %>% gather(Partner:M_Stranger, key='person', value='emotional_bond')
+# NB: Note: A more recent version of tidyverse includes functions pivot_wider and pivot_longer, which are recommended for use instead of spread and gather, respectively. You can choose to use either! To get the same end result as above with pivot_longer, you would run
+
+data_long2 <- data %>% pivot_longer(cols=Partner:M_Stranger, names_to='person', values_to='emotional_bond')
 
 # load in one more data file and convert it to long and combine it with the others
 touch <- read_csv(paste0(data_in, 'touch_allowance_for_demo.csv'))

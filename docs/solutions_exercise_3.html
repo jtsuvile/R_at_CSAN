@@ -286,6 +286,9 @@ $(document).ready(function () {
 <li>
   <a href="exercise_sheet_2.html">Exercises 2</a>
 </li>
+<li>
+  <a href="exercise_sheet_3.html">Exercises 3</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-lightbulb-o"></span>
@@ -300,6 +303,9 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="solutions_exercise_2.html">Solutions 2</a>
+    </li>
+    <li>
+      <a href="solutions_exercise_3.html">Solutions 3</a>
     </li>
   </ul>
 </li>
@@ -323,64 +329,96 @@ $(document).ready(function () {
 <pre class="r"><code>library(tidyverse)
 library(patchwork)
 
-setwd(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/&#39;)
+setwd(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/&#39;)
 ## 3.1 Tidy data 
 # Q3.1.1
-data &lt;- read_csv2(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/exercise_data_not_tidy.csv&#39;)
+data &lt;- read_csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/exercise_data_not_tidy.csv&#39;)
 # inspect the tibble
 data
 
 ## wrangling the data
 # Q3.1.2 
-# I would argue that in this case, it makes most sense to have the food types each be in their own column like they were in the last set of exercises. 
+# I would argue that in this case, it makes most sense to have the self-reported emotions eachin their own column like they were in the last set of exercises. We also have a second data file which we need to join to the first one.
 
 # Q3.1.3
 # we can use the function spread (from tidyr) to go from long to wide
-data &lt;- data %&gt;% spread(key=&#39;food_type&#39;, value=&#39;consumption&#39;)
+data &lt;- data %&gt;% spread(key=&#39;emotion&#39;, value=&#39;self_report&#39;)
+# or using pivot_wider in newer versions of tidyverse
+data &lt;- data %&gt;% pivot_wider(names_from=&#39;emotion&#39;, values_from=&#39;self_report&#39;)
+
+# adding in the second data file
+# first read in data
+data_add_in &lt;- read_csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/exercise_data_not_tidy_add_in.csv&#39;)
+# the column by which we match the data is called &quot;subid&quot; in both data.frames, so we can just say
+data &lt;- full_join(data, data_add_in)
+# inspect to make sure the join worked
+View(data)
 
 ## cleaning and manipulating the data
 # Q3.1.4 
 summary(data)
-plot(data$Age_calculated)
-plot(data$an_BMI)
-# looks like we have a few problems: there are some subjects with age 99 (although we know these are supposed to be children)
-# we have some subjects with bmi -1, which is not possible so that is also likely supposed to be NA
-# we have a number of &#39;NaN&#39;s (for Not a Number), these should also be coded as NA
+plot(data$height)
+plot(data$weight)
+plot(data$age)
+# looks like we have a few problems: there are some subjects with weight and height either negative or around zero - that cannot be true
+# we have one subject whose age is 99. We can&#39;t be sure if that is correct, but let us assume that that&#39;s also mistake and replace that with NA
 
 # Q3.1.5
-# reload data will fix the NaN issue
-data &lt;- read_csv2(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/exercise_data_not_tidy.csv&#39;, na=&#39;NaN&#39;)
-# re-run the spreading
-data &lt;- data %&gt;% spread(key=&#39;food_type&#39;, value=&#39;consumption&#39;)
 
-# we can use mutate and na_if to deal with the rest
-data &lt;- data %&gt;% mutate(Age_calculated = na_if(Age_calculated, 99), an_BMI = na_if(an_BMI,-1))
+# we can use mutate and na_if to deal with the badly coded NAs
+data &lt;- data %&gt;% mutate(height = na_if(height, -1), 
+                        weight = na_if(weight, -99),
+                        age = ifelse(age &gt; 85, NA, age))
 
 # Q3.1.6
-# looks like co_Gender and co_EDUC_fam_clas should both be factors, let&#39;s take care of that
-data &lt;- data %&gt;% mutate(co_Gender = factor(co_Gender, levels = c(1,2),labels=c(&#39;female&#39;,&#39;male&#39;)), 
-                        co_EDUC_fam_clas = factor(co_EDUC_fam_clas, levels=c(1,2,3), labels=c(&#39;low&#39;,&#39;middle&#39;,&#39;high&#39;)))
+# looks like sex and education should both be factors, let&#39;s take care of that
+# the categories are the same as last time
+data &lt;- data %&gt;% mutate(sex = factor(sex, levels = c(1,2),labels=c(&#39;female&#39;,&#39;male&#39;)), 
+                        education = factor(education, levels=c(1,2,3,4), 
+                                           labels=c(&#39;primary&#39;,&#39;secondary&#39;,&#39;vocational&#39;, &#39;university&#39;)))
 
 # Q3.1.7
-# let&#39;s shorten the names of ID_number, co_Gender, co_EDUC_fam_clas, Age_calculated and an_BMI with rename
-data &lt;- data %&gt;% rename(subid = ID_number, sex = co_Gender, education = co_EDUC_fam_clas, age = Age_calculated, BMI = an_BMI)
+# let&#39;s shorten the names of the unnecessarily long columns with rename
+data &lt;- data %&gt;% rename(work_physical = percentage_work_time_physical, 
+                        work_sitting = percentage_work_time_sitting,
+                        pain = current_feeling_pain,
+                        depression = self_assessed_depression,
+                        anxiety = self_assessed_anxiety)
 
 # Q3.1.8
-# Let&#39;s sum values for different types of bread into a new column called &#39;Bread&#39;.
-data &lt;- data %&gt;% mutate(bread = Whitebread+Wholemealbread+Ryebread)
+# Let&#39;s make a column for BMI
+data &lt;- data %&gt;% mutate(BMI = (weight / (0.01*height)^2 )) 
+# Note: we&#39;re using 0.01*height because the formula requires height in meters and our data has it in centimeters
 
 # Q3.1.9 
 counted_data &lt;- data %&gt;% group_by(sex, education) %&gt;% tally()
 
-## Note: I have split up the different steps of this process to make it easier to follow what happens where, but you could do the 
-## whole data cleaning bit in one go, like so: 
-data &lt;- data %&gt;% spread(key=&#39;food_type&#39;, value=&#39;consumption&#39;) %&gt;% 
-  mutate(Age_calculated = na_if(Age_calculated, 99), an_BMI = na_if(an_BMI,-1)) %&gt;% 
-  mutate(co_Gender = factor(co_Gender, levels = c(1,2),labels=c(&#39;female&#39;,&#39;male&#39;)), 
-         co_EDUC_fam_clas = factor(co_EDUC_fam_clas, levels=c(1,2,3), labels=c(&#39;low&#39;,&#39;middle&#39;,&#39;high&#39;))) %&gt;% 
-  rename(subid = ID_number, sex = co_Gender, education = co_EDUC_fam_clas, age = Age_calculated, BMI = an_BMI) %&gt;% 
-  mutate(bread = Whitebread+Wholemealbread+Ryebread)
+## Note: Above, I have split up the different steps of this process for pedagogical reasons. If you wanted, you could do the same data cleaning in a much more condensed format, like so: 
+data &lt;- read_csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/exercise_data_not_tidy.csv&#39;)
+data_add_in &lt;- read_csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/exercise_data_not_tidy_add_in.csv&#39;)
+
+data &lt;- data %&gt;% pivot_wider(names_from=&#39;emotion&#39;, values_from=&#39;self_report&#39;) %&gt;% 
+  full_join(data_add_in) %&gt;% 
+  mutate(height = na_if(height, -1), 
+                        weight = na_if(weight, -99),
+                        age = ifelse(age &gt; 85, NA, age)) %&gt;% 
+  mutate(sex = factor(sex, levels = c(1,2),labels=c(&#39;female&#39;,&#39;male&#39;)), 
+                        education = factor(education, levels=c(1,2,3,4), 
+                                           labels=c(&#39;primary&#39;,&#39;secondary&#39;,&#39;vocational&#39;, &#39;university&#39;))) %&gt;% 
+  rename(work_physical = percentage_work_time_physical, 
+                        work_sitting = percentage_work_time_sitting,
+                        pain = current_feeling_pain,
+                        depression = self_assessed_depression,
+                        anxiety = self_assessed_anxiety) %&gt;% 
+  mutate(BMI = (weight / (0.01*height)^2 ))
 ## (you would still want to build your process step by step, making sure outcome after each step is what you want it to be)
+
+# Q3.1.10
+for(column in colnames(data)){
+  print(paste(column, &#39;has&#39;, sum(is.na(data[,column])), &#39;NAs&#39;))
+}
+# of course an easier way to get the same information would be to get a summary of the data set
+summary(data)
 
 ## 3.2 ggplot2 + patchwork
 
@@ -393,71 +431,78 @@ ggplot(data, aes(x=Freshveg)) +
 # if you skip the +, the latter lines won&#39;t be understood as part of the same plot call
 
 # Q3.2.3 
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram()
 
 # Q3.2.4
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram(position=&#39;identity&#39;)
 
 # Q3.2.5 
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram(position=&#39;identity&#39;, alpha=0.5)
 # larger numbers for alpha make the colours more solid, smaller numbers make it more see-through
 
 # Q3.2.6
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram(position=&#39;identity&#39;, alpha=0.5, aes(y=..density..))
 
 # Q3.2.7
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram(position=&#39;identity&#39;, alpha=0.5, aes(y=..density..)) +
-labs(title=&quot;Consumption of fresh vegetables&quot;, x=&quot;Times per week&quot;, y = &quot;Density&quot;)
+labs(title=&quot;Age distribution&quot;, x=&quot;Age&quot;, y = &quot;Density&quot;)
 
 # Q3.2.8
-ggplot(data, aes(x=Freshveg, fill=sex)) +
+ggplot(data, aes(x=age, fill=sex)) +
   geom_histogram(position=&#39;identity&#39;, alpha=0.5, aes(y=..density..)) +
-  labs(title=&quot;Consumption of fresh vegetables&quot;, x=&quot;Times per week&quot;, y = &quot;Density&quot;)+
+labs(title=&quot;Age distribution&quot;, x=&quot;Age&quot;, y = &quot;Density&quot;) +
   theme_classic()
 
 # Q3.2.9
-# to remove the annoying na-bars, you can use na.omit(data) to only look at complete rows
-# i.e. omit any row with at least one missing value
-ggplot(na.omit(data), aes(x=Freshveg, fill=factor(sex))) +
-  geom_histogram(position=&quot;identity&quot;,  alpha=0.5, aes(y=..density..)) + 
-  labs(title=&quot;Consumption of fresh vegetables&quot;, x=&quot;Times per week&quot;, y = &quot;Density&quot;) +
-  geom_density(alpha=0.2) +
-  stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$Freshveg, na.rm=T), sd = sd(data$Freshveg, na.rm=T)), colour=&#39;red&#39;) + 
-  theme_classic(base_size=20)
 
-# Q3.2.10
-p1 &lt;- ggplot(na.omit(data), aes(x=Freshveg, fill=factor(sex))) +
-  geom_histogram(position=&quot;identity&quot;,  alpha=0.5, aes(y=..density..)) + 
-  labs(title=&quot;Consumption of fresh vegetables&quot;, x=&quot;Times per week&quot;, y = &quot;Density&quot;) +
+ggplot(data, aes(x=age, fill=sex)) +
+  geom_histogram(position=&#39;identity&#39;, alpha=0.5, aes(y=..density..)) +
+labs(title=&quot;Age distribution&quot;, x=&quot;Age&quot;, y = &quot;Density&quot;) +
   geom_density(alpha=0.2) +
-  stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$Freshveg, na.rm=T), sd = sd(data$Freshveg, na.rm=T)), colour=&#39;red&#39;) + 
+  stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$age, na.rm=T), sd = sd(data$age, na.rm=T)), colour=&#39;red&#39;) + 
   theme_classic(base_size=20) +
   theme(legend.position = &#39;bottom&#39;)
 
-pdf(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/figures/veg_consumption.pdf&#39;)
+# Q3.2.10
+p1 &lt;- ggplot(data, aes(x=age, fill=sex)) +
+  geom_histogram(position=&#39;identity&#39;, alpha=0.5, aes(y=..density..)) +
+labs(title=&quot;Age distribution&quot;, x=&quot;Age&quot;, y = &quot;Density&quot;) +
+  geom_density(alpha=0.2) +
+  stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$age, na.rm=T), sd = sd(data$age, na.rm=T)), colour=&#39;red&#39;) + 
+  theme_classic(base_size=20) +
+  theme(legend.position = &#39;bottom&#39;)
+
+pdf(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/age_distribution.pdf&#39;)
 p1
 dev.off()
 
 # Q3.2.11
-ggplot(na.omit(data), aes(x=age, y=BMI)) + 
-  geom_point() 
+# let&#39;s see if the self-reported happiness/joy is associated with
+# how depressed the subject is feeling
+# both were collected on a scale from 0 to 10 - not exactly a continuous scale but we can still use scatter plot to look at it as long as we use geom_jitter to add a bit of visual jitter 
+ggplot(data, aes(x=depression, y=joy)) + 
+  geom_jitter()
 
 # Q3.2.12
-ggplot(na.omit(data), aes(x=age, y=BMI)) + 
-  geom_point() + 
+# looks like higher depression is associated with lower levels of joy - who would&#39;ve thunk!
+ggplot(data, aes(x=depression, y=joy)) + 
+  geom_jitter() + 
   geom_smooth(method=&#39;lm&#39;)
 
 # Q3.2.13
-p2 &lt;- ggplot(na.omit(data), aes(x=age, y=BMI, col=education)) + 
-  geom_point(size=2) + 
-  geom_smooth(method=&#39;lm&#39;, se=F) + 
+# for this plot, I&#39;ve decided to take out the confidence estimates for the trend line (se=F), and added sex information to the dot color. Notice how having dot color defined by sex gives us separate trend lines for males and females?
+p2 &lt;- ggplot(data, aes(x=depression, y=joy, col=sex)) + 
+  geom_jitter(alpha=0.5) +
+  geom_smooth(method=&#39;lm&#39;, se=F, size=2) + 
+  labs(title = &#39;Depression suppresses joy&#39;, xlab=&#39;Depression&#39;, ylab=&#39;Happiness&#39;) +
   theme_classic() +
-  theme(legend.position = &#39;bottom&#39;)
+  theme(legend.position = &#39;bottom&#39;,
+        text = element_text(size=16))
 
 # Q3.2.16
 p1 + p2
@@ -466,8 +511,8 @@ p1 + p2
 p1 / p2
 
 # Q 3.2.18
-# for this purpose, maybe the two rows, one column thing worked better?
-# You can also use this to build more complex layouts, like
+# for this purpose, maybe the one row, two column thing worked better?
+# You can also use patchwork to build more complex layouts, like
 p1 + p2/p2
 p1 / (p2 + p2)</code></pre>
 
