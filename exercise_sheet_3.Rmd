@@ -111,7 +111,11 @@ To superimpose a normal distribution curve, we can add `stat_function(fun = dnor
 
 Q3.2.10 Now save the plot.
 
-Tip: You can either put your `pdf()` and `dev.off()` calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with `p1 <- ggplot` etc.). You can also save plot via the graphical interface with "Export" (plots tab, lower right hand side), but I recommend you try to minimise the number of point-and-click operations you do with R. 
+Tip: You have three different ways to do the saving. From easiest to most difficult, they are 
+
+1. You can also save plot via the graphical interface with "Export" (plots tab, lower right hand side). However, I recommend you try to minimise the number of point-and-click operations you do with R.
+2. When you use ggplot2 to create your plots, you can use `ggsave(<filename>)` after making your plot to save it. NB: This might not work if you use base R or some other package to make your plot.
+3. You can also use `pdf()` and `dev.off()` as you did before. If you do this, you can either put your `pdf()` and `dev.off()` calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with `p1 <- ggplot` etc.).  
 
 ###  Now make a figure with your own data, if you have some!
 

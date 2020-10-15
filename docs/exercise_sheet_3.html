@@ -388,7 +388,12 @@ $(document).ready(function () {
 <p>Q3.2.8 Now we get to the fun part! You can change the look of the plot by choosing a theme. Look at the themes here <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html#examples" class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html#examples</a> and apply one of them to your plot.</p>
 <p>Q3.2.9 We can easily add other elements to the plot. For example, adding <code>geom_density(alpha=0.2)</code> as a new function will overlay probability density function for our data. To superimpose a normal distribution curve, we can add <code>stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$age, na.rm=T), sd = sd(data$age, na.rm=T)), colour='red')</code></p>
 <p>Q3.2.10 Now save the plot.</p>
-<p>Tip: You can either put your <code>pdf()</code> and <code>dev.off()</code> calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with <code>p1 &lt;- ggplot</code> etc.). You can also save plot via the graphical interface with &quot;Export&quot; (plots tab, lower right hand side), but I recommend you try to minimise the number of point-and-click operations you do with R.</p>
+<p>Tip: You have three different ways to do the saving. From easiest to most difficult, they are</p>
+<ol style="list-style-type: decimal">
+<li>You can also save plot via the graphical interface with &quot;Export&quot; (plots tab, lower right hand side). However, I recommend you try to minimise the number of point-and-click operations you do with R.</li>
+<li>When you use ggplot2 to create your plots, you can use <code>ggsave(&lt;filename&gt;)</code> after making your plot to save it. NB: This might not work if you use base R or some other package to make your plot.</li>
+<li>You can also use <code>pdf()</code> and <code>dev.off()</code> as you did before. If you do this, you can either put your <code>pdf()</code> and <code>dev.off()</code> calls around the whole thing, or you can first assign the whole plot call to a variable (so the first line starts with <code>p1 &lt;- ggplot</code> etc.).</li>
+</ol>
 </div>
 <div id="now-make-a-figure-with-your-own-data-if-you-have-some" class="section level3">
 <h3>Now make a figure with your own data, if you have some!</h3>
