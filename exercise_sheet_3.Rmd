@@ -107,7 +107,7 @@ Tip: Remember that with ggplot, adding new elements happens by adding a + at the
 Q3.2.8 Now we get to the fun part! You can change the look of the plot by choosing a theme. Look at the themes here https://ggplot2.tidyverse.org/reference/ggtheme.html#examples and apply one of them to your plot.
 
 Q3.2.9 We can easily add other elements to the plot. For example, adding `geom_density(alpha=0.2)` as a new function will overlay probability density function for our data.
-To superimpose a normal distribution curve, we can add `stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$Freshveg, na.rm=T), sd = sd(data$Freshveg, na.rm=T)), colour='red')`
+To superimpose a normal distribution curve, we can add `stat_function(fun = dnorm, n = 101, args = list(mean = mean(data$age, na.rm=T), sd = sd(data$age, na.rm=T)), colour='red')`
 
 Q3.2.10 Now save the plot.
 
