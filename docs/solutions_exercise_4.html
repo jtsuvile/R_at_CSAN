@@ -11,7 +11,7 @@
 
 
 
-<title>Solutions for exercise set 4</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -289,6 +289,9 @@ $(document).ready(function () {
 <li>
   <a href="exercise_sheet_3.html">Exercises 3</a>
 </li>
+<li>
+  <a href="exercise_sheet_4.html">Exercises 4</a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-lightbulb-o"></span>
@@ -307,6 +310,9 @@ $(document).ready(function () {
     <li>
       <a href="solutions_exercise_3.html">Solutions 3</a>
     </li>
+    <li>
+      <a href="solutions_exercise_4.html">Solutions 4</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -321,25 +327,30 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Solutions for exercise set 4</h1>
 
 </div>
 
 
-<pre class="r"><code># Working on the food consumption data set from exercise 2
+<hr />
+<p>title: &quot;Solutions for exercise set 4&quot; output: html_document ---g</p>
+<pre class="r"><code># Working on the emotions and pain data set from exercise 2
 library(car)
+library(apaTables)
+library(tidyverse)
 # Start by reading in the data
-data &lt;- read.csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/course_materials/data/exercise_data.csv&#39;, 
-                 sep=&quot;;&quot;, dec=&#39;,&#39;)
+data &lt;- read.csv(&#39;/Users/juusu53/Documents/projects/opetus/R_for_scientists/R_at_CSAN/data/exercise_data.csv&#39;)
 
-data$co_Gender &lt;- factor(data$co_Gender, levels=c(1,2), labels=c(&#39;female&#39;,&#39;male&#39;))
-data$co_EDUC_fam_clas &lt;- factor(data$co_EDUC_fam_clas, levels=c(1,2,3), labels=c(&#39;low&#39;,&#39;middle&#39;,&#39;high&#39;))
+# Let&#39;s do the same cleaning up we did in exercise set 2
+data$sex &lt;- factor(data$sex, levels=c(1,2), labels=c(&#39;female&#39;,&#39;male&#39;))
+data$education &lt;- factor(data$education, levels=c(1,2,3,4), labels=c(&#39;primary&#39;, &#39;secondary&#39;, &#39;vocational&#39;, &#39;university&#39;))
 
 ## 4.1 Simple statistical tests
 
 # Q4.1.1
-# checking mean BMI for boys and girls
-res &lt;- t.test(data$an_BMI ~ data$co_Gender)
+# checking extent of pain in the body for each sex
+res &lt;- t.test(data$curr_pain_extent ~ data$sex)
+# see the results
+res 
 
 # Q4.1.2 
 # t stands for test statistic, df stands for the degrees of freedom, p-value tells the p-valua
@@ -355,13 +366,13 @@ res$estimate
 # Q4.1.3
 # for one-sided alternative hypothesis, you need to define which way you assume the 
 # difference to be with either &quot;less&quot; or &quot;greater&quot;
-t.test(data$an_BMI ~ data$co_Gender, alternative=&#39;greater&#39;)
+t.test(data$curr_pain_extent ~ data$sex, alternative=&#39;greater&#39;)
 
 # Q4.1.4
 # built-in help tells us that var.equal parameter controls this
 # if we want to specify that we assume equal variances, we can include
 # var.equal = TRUE
-t.test(data$an_BMI ~ data$co_Gender, var.equal = TRUE)
+t.test(data$curr_pain_extent ~ data$sex, var.equal = TRUE)
 
 # 4.2 Testing assumptions
 
@@ -369,7 +380,7 @@ t.test(data$an_BMI ~ data$co_Gender, var.equal = TRUE)
 # equality of variances
 # our data are not normally distributed (as we learn below) so we&#39;ll use fligner-killeen&#39;s test
 # which is very robust against departures from normality
-fligner.test(data$an_BMI ~ data$co_Gender)
+fligner.test(data$curr_pain_extent ~ data$sex)
 
 # Q4.2.2
 # In the case of all of these tests, the null hypothesis (H0) is that 
@@ -380,54 +391,73 @@ fligner.test(data$an_BMI ~ data$co_Gender)
 # of there being a difference and you having to reject H0.
 
 # For the exercise data, we get 
-# Fligner-Killeen:med chi-squared = 1.9953, df = 1, p-value = 0.1578
-# The p value is large enough that we cannot reject the null hypothesis
+# Fligner-Killeen:med chi-squared = 34.265, df = 1, p-value = 4.809e-09
+# The p value is so small that we should reject the null hypothesis
 
 # Q4.2.3
 
 # Plotting tests for normality
-hist(data$an_BMI)
-qqnorm(data$an_BMI)
-qqline(data$an_BMI)
-# they all look normal-ish but not exactly normal, looks like there is some skew
+hist(data$curr_pain_extent)
+qqnorm(data$curr_pain_extent)
+qqline(data$curr_pain_extent)
+# Looks like the data have very heavy skew
 
 # Q4.2.4
-shapiro.test(data$an_BMI)
-# nope, not normally distributed in this data set
+shapiro.test(data$curr_pain_extent)
+# nope, definitely not normally distributed!
 
 ## 4.3 Regression
 # first, let&#39;s only work with rows with no missing values (makes our life easier)
 data_complete &lt;- na.omit(data)
+# I have decided to use the extent of current pain as the dependent variable. However, it&#39;s coded as 0-1 (proportion of body in pain), let&#39;s change that to show percentages (0-100) instead to get more informative betas
+data_complete$curr_pain_percent &lt;- data_complete$curr_pain_extent*100
 
 # Q4.3.1 
 # simple regression 
-lm(an_BMI ~ Sweets_pattern, data=data_complete)
+lm(curr_pain_percent ~ work_physical, data=data_complete)
 
 # Q4.3.2 
-model1 &lt;- lm(an_BMI ~ Sweets_pattern, data=data_complete)
+model1 &lt;- lm(curr_pain_percent ~ work_physical, data=data_complete)
 summary(model1)
 
 # Q4.3.3 
 # a slightly more complex linear model
-model2 &lt;- lm(an_BMI ~ Sweets_pattern + Healthy_pattern, data=data_complete)
+model2 &lt;- lm(curr_pain_percent ~ work_sitting + work_physical, data=data_complete)
 summary(model2)
 
 # Q4.3.4 
 # Comparing the two models 
-anova(model1,model2)
+anova(model1, model2)
+
+# It looks like in this case the more complex model is better than the simpler one (F = 4.57, p = 0.033), so we should keep the information about proportion of work time spent sitting in the model even though it is not as strong of a predictor as proportion of time spent in physically taxing work
+
+# Q4.3.5 
+# Output outcome into a pretty table
+apa.reg.table(model2)
 
 ## Bonus! Logistic regression
 
-# create a binary variable about whether subject is above or below average BMI for this sample
-data_complete$above_avg_BMI &lt;- data_complete$an_BMI &gt; mean(data_complete$an_BMI)
+# Let&#39;s create a binary variable about whether subject is likely to have or not have depression in this sample, based on their self rated depression (NB: this is not a clinically sound way to do this, this is just for demonstration purposes!)
 
-# run a logistic regression where dependent variable is the one we just created
-bin1 &lt;- glm(formula = above_avg_BMI ~ Sweets_pattern +  Healthy_pattern + Veg_meats_pattern, 
-    data=data_complete,
+# let&#39;s do the splitting with tidyverse and save the result to a new data frame
+data_with_depression &lt;- data_complete %&gt;% 
+  filter(depression &gt;= 7 | depression &lt;= 1) %&gt;% # only select subs with very high or very low depression rating
+  mutate(is_depressed = depression &gt;= 7) # create a new logical column is_depressed based on the depression rating
+
+# Now, we can run a logistic regression where dependent variable is the one we just created
+bin1 &lt;- glm(formula = is_depressed ~ joy + pain + anxiety, 
+    data=data_with_depression,
     family = &#39;binomial&#39;)
 
 # check to see outcome
-summary(bin1)</code></pre>
+summary(bin1)
+
+# we can also use the gtsummary package to get the logistic regression stats to a nice table
+library(gtsummary)
+tbl_regression(bin1, exponentiate = TRUE)
+# the results are shown in viewer (in the same quadrant your plots are shown in)
+
+# NB: This package seems to only work if you use glm() function to create your model. If you wanted to use gtsummary to display the results of the linear models, you would need to tweak your code for the linear regression to use glm() instead of lm() </code></pre>
 
 &nbsp;
 <style>
