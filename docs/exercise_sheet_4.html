@@ -340,7 +340,8 @@ $(document).ready(function () {
 <h1>Exercises</h1>
 <div id="simple-statistical-tests" class="section level2">
 <h2>4.1 Simple statistical tests</h2>
-<p><a href="https://youtu.be/-NSf9MdcBVA" target="_blank">Demo 4: Statistical tests (talk)</a> <a href="https://youtu.be/wK9j4m4goPY" target="_blank">Demo 4: Statistical tests (demo)</a></p>
+<p><a href="https://youtu.be/-NSf9MdcBVA" target="_blank">Demo 4: Statistical tests (talk)</a></p>
+<p><a href="https://youtu.be/wK9j4m4goPY" target="_blank">Demo 4: Statistical tests (demo)</a></p>
 <p>Start by loading in and inspecting your data as you have done in previous tasks. I recommend you do these tasks on a data set which you have already made tidy &amp; you know that the data import works as it should.</p>
 <p>Q4.1.1 Select a continuous variable and a factor with two levels, e.g. sex. Run a t-test (command <code>t.test</code>) on these variables.</p>
 <p>Q4.1.2 From the output, find the <em>t-statistic</em>, <em>degrees of freedom</em> and <em>p-value</em>. Can you also find <em>confidence interval</em> and <em>means in both groups</em>?</p>
@@ -350,7 +351,8 @@ $(document).ready(function () {
 </div>
 <div id="testing-assumptions" class="section level2">
 <h2>4.2 Testing assumptions</h2>
-<p><a href="https://youtu.be/SqsH6iP8M7k" target="_blank">Demo 4: Testing assumptions (talk)</a> <a href="https://youtu.be/bhzyEZNJHXc" target="_blank">Demo 4: Testing assumptions (demo)</a></p>
+<p><a href="https://youtu.be/SqsH6iP8M7k" target="_blank">Demo 4: Testing assumptions (talk)</a></p>
+<p><a href="https://youtu.be/bhzyEZNJHXc" target="_blank">Demo 4: Testing assumptions (demo)</a></p>
 <p>Q4.2.1 Are we justified in assuming equal variances in our t-test? Find out by testing for homogeneity of variance. If your data are normally distributed, you can use <code>var.test</code> for F-test or <code>bartlett.test</code> (for more than two groups). If your data are not normally distributed, you can use <code>leveneTest</code> from the <code>car</code> package (can also manage more than two groups) or <code>fligner.test</code>.</p>
 <p>Tip: At least the Levene test requires that your explanatory variable (the one after the ~) is a factor. If you did not take the time to convert your factors into factors when importing data, do that now!</p>
 <p>Q4.2.2 What does your result tell you? Is a low p-value a sign of <strong>having</strong> equal variances or <strong>not having</strong> equal variances?</p>
@@ -360,7 +362,8 @@ $(document).ready(function () {
 </div>
 <div id="regression" class="section level2">
 <h2>4.3 Regression</h2>
-<p><a href="https://youtu.be/mw8WGYYTWj0" target="_blank">Demo 4: (Linear) regression models (talk)</a> <a href="https://youtu.be/tppKi3hSA4s" target="_blank">Demo 4: Regression (demo)</a></p>
+<p><a href="https://youtu.be/mw8WGYYTWj0" target="_blank">Demo 4: (Linear) regression models (talk)</a></p>
+<p><a href="https://youtu.be/tppKi3hSA4s" target="_blank">Demo 4: Regression (demo)</a></p>
 <p>For the regression tasks, find a continuous dependent variable and a number of independent variables.</p>
 <p>Q4.3.1 Create a simple linear regression with <code>lm(y ~ x, data=data)</code> (where y is your dependent variable, x is one of your independent variables and the latter data is the name of your dataframe).</p>
 <p>Q4.3.2 Assign the result of the linear model to a variable and run <code>summary</code> on that variable. What can you tell about the result?</p>

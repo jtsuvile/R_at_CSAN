@@ -53,6 +53,7 @@ Q3.1.3 Try to do that! In the example data set, I would argue that it makes most
 ### Manipulating data
 
 [Demo 3: Manipulating data (talk)](https://youtu.be/2yZ1geGtvWg){target="_blank"}
+
 [Demo 3: Manipulating data (demo)](https://youtu.be/nPK2HwssTHw){target="_blank"}
 
 Q3.1.4 Inspect your data as we learned last time. How many missing values? Are there any values that might be wrongly coded NA's?
@@ -78,6 +79,7 @@ Tip: Refer back to the loops you've worked with earlier to get help with the syn
 ## 3.2 Better plotting
 
 [Demo 3: Plotting with ggplot2 (talk)](https://youtu.be/Hh8ZvPaKBeg){target="_blank"}
+
 [Demo 3: Plotting with ggplot2 (demo)](https://youtu.be/9jUI1Y-232c){target="_blank"}
 
 ### Let's remake the bar chart from last set of exercises, but this time with ggplot2.
