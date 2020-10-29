@@ -71,6 +71,9 @@ Create a new binary variable (or use one you have already) to run logistic regre
 
 [Demo 4: Recap](https://youtu.be/ARZJluj_ehE){target="_blank"}
 
+## Course feedback
+Now that you made it this far, would you please take a few minutes and fill in the course feedback form [which you can find here](https://forms.gle/S8TddGUbJofkPHKNA). It would mean a lot to me if you did that and it shouldn't take too long. Thanks in advance!
+
 ## Resources
 * [You can find the demo videos introducing new concepts and giving you tools to complete these exercises here](https://www.youtube.com/playlist?list=PLDDYJXmrJm8WjwEyPo12rOA1Gayxs2jMA)
 * [You can find the slides shown in the video here](./images/slides_for_demo_4.pdf)
